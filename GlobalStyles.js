@@ -1,41 +1,53 @@
-/* fonts */
-export const FontFamily = {
-  interMedium: "Inter-Medium",
-  interBold: "Inter-Bold",
-  latoRegular: "Lato-Regular",
-  robotoBold: "Roboto-Bold",
-  robotoRegular: "Roboto-Regular",
-  latoBold: "Lato-Bold",
-  montserratLight: "Montserrat-Light",
+const Stack = createNativeStackNavigator();
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import Signup from "./screens/Signup";
+import Login from "./screens/Login";
+import Splash from "./screens/Splash";
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
+
+const App = () => {
+  const [hideSplashScreen, setHideSplashScreen] = React.useState(true);
+  const [fontsLoaded, error] = useFonts({
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Lato-Regular": require("./assets/fonts/Lato-Regular.ttf"),
+    "Lato-Bold": require("./assets/fonts/Lato-Bold.ttf"),
+    "Inter-Medium": require("./assets/fonts/Inter-Medium.ttf"),
+    "Inter-Bold": require("./assets/fonts/Inter-Bold.ttf"),
+  });
+
+  if (!fontsLoaded && !error) {
+    return null;
+  }
+
+  return (
+    <>
+      <NavigationContainer>
+        {hideSplashScreen ? (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Splash"
+              component={Splash}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        ) : null}
+      </NavigationContainer>
+    </>
+  );
 };
-/* font sizes */
-export const FontSize = {
-  size_21xl: 40,
-  size_base: 16,
-  size_lg: 18,
-  size_sm: 14,
-  size_17xl: 36,
-};
-/* Colors */
-export const Color = {
-  sthDark: "#111110",
-  mediumseagreen_100: "#0acf83",
-  white: "#fff",
-  sthDarkgrey: "#484848",
-  primaryGrey2: "#d8d8dd",
-  sthLightgrey: "#a09f99",
-  silver: "rgba(196, 196, 196, 0)",
-};
-/* Paddings */
-export const Padding = {
-  p_41xl: 60,
-  p_3xs: 10,
-};
-/* border radiuses */
-export const Border = {
-  br_11xl: 30,
-  br_81xl: 100,
-  br_7xs: 6,
-  br_31xl: 50,
-  br_6xl: 25,
-};
+export default App;
